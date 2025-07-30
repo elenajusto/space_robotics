@@ -32,10 +32,20 @@ class WeightedAverager:
         self.parent_logger = node.get_logger()
 
     def weighted_average(self):
+        distances = [] # List to hold distances
+
         # Task 2 - Calculate Distance
         for landmark in self.landmarks:
             distance = math.sqrt((landmark.x - self.origin.x) ** 2 + (landmark.y - self.origin.y) ** 2)
+            distances.append(distance)
             print("Distance from origin to landmark at (" + str(landmark.x) + ", " + str(landmark.y) + ") is " + str(distance))
+        
+        # TODO: Debug
+        print("Distance List: ", distances)
+
+        # Task 3 - Calculate Average
+        # Avg = Sum of each value / # of values
+ 
         return
 
 
@@ -62,7 +72,7 @@ class PythonTutorialNode(Node):
         
         # Create the WeightedAverager object
         weighted_averager = WeightedAverager(self, origin, landmarks)
-        
+
         weighted_averager.weighted_average() # Call the loop of distances
 
         # Call the averaging function
