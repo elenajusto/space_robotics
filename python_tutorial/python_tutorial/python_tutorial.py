@@ -57,6 +57,11 @@ class PythonTutorialNode(Node):
             print("coordinate " + str(counter) + ": " + str(landmarks[counter].x) + "," + str(landmarks[counter].y))
             counter += 1
 
+        # Task 2 - Calculate Distance
+        for landmark in landmarks:
+            distance = math.sqrt((landmark.x - origin.x) ** 2 + (landmark.y - origin.y) ** 2)
+            print("Distance from origin to landmark at (" + str(landmark.x) + ", " + str(landmark.y) + ") is " + str(distance))
+        
         # Create the WeightedAverager object
         # weighted_averager = WeightedAverager(self, origin, landmarks)
 
