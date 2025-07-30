@@ -62,6 +62,8 @@ class PythonTutorialNode(Node):
         
         # Create the WeightedAverager object
         weighted_averager = WeightedAverager(self, origin, landmarks)
+        
+        weighted_averager.weighted_average() # Call the loop of distances
 
         # Call the averaging function
         # answer = weighted_averager.weighted_average()
