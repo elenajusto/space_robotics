@@ -10,8 +10,8 @@ class Location:
     def __init__(self, x, y):
 
         # Save the input arguments as object variables
-        self.x = x
-        self.y = y
+        self.x = x  # location in x-axis
+        self.y = y  # location in y-axis
 
 
 class WeightedAverager:
@@ -51,6 +51,12 @@ class PythonTutorialNode(Node):
         landmarks = [Location(6.0, 7.0), Location(5.1, 4.9), Location(15.0, 20.0), Location(
             8.0, 0.0), Location(-3.0, 2.0), Location(-10.0, -10.0), Location(5.0, 5.0), Location(0.0, 0.0)]
 
+        # Task 1 - Print Elements
+        counter = 0
+        while counter < len(landmarks):
+            print("coordinate " + str(counter) + ": " + str(landmarks[counter].x) + "," + str(landmarks[counter].y))
+            counter += 1
+
         # Create the WeightedAverager object
         # weighted_averager = WeightedAverager(self, origin, landmarks)
 
@@ -64,7 +70,7 @@ def main():
 
     # Create a ROS2 node where our code will run
     python_tutorial_node = PythonTutorialNode()
-
+    
     while rclpy.ok():
         rclpy.spin(python_tutorial_node)
 

@@ -1,0 +1,3 @@
+[console_scripts]
+python_tutorial = python_tutorial.python_tutorial:main
+
