@@ -1,5 +1,6 @@
 import math
 import random
+import numpy as np
 
 import rclpy
 from rclpy.node import Node
@@ -40,12 +41,44 @@ class WeightedAverager:
             distances.append(distance)
             print("Distance from origin to landmark at (" + str(landmark.x) + ", " + str(landmark.y) + ") is " + str(distance))
         
-        # TODO: Debug
-        print("Distance List: ", distances)
+        print("Distance List: ", distances) # TODO: Debug
 
         # Task 3 - Calculate Average
         # Avg = Sum of each value / # of values
- 
+        avgSum = 0
+        avgValNum = 0
+        for i in range(len(distances)):
+            avgSum += distances[i]
+            avgValNum += 1
+        avgDistance = avgSum / avgValNum
+
+        print("Average distance: ", avgDistance) # TODO: Debug
+
+        # Task 4 - Compute weighted average
+        weights = []
+        for i in range(len(distances)):
+            random = np.random.rand()
+            weights.append(random)
+
+        print("Raw Weights: ", weights) # TODO: Debug
+
+        weight_sum = 0
+        for w in weights:
+            weight_sum += w
+
+        print("Raw Weight Sum: ", weight_sum) # TODO: Debug
+
+        for i in range(len(weights)):
+            weights[i] = weights[i] / weight_sum    
+
+        print("Normalized Weights:", weights)
+
+        weighted_sum = 0
+        for i in range(len(distances)):
+            weighted_sum += weights[i] * distances[i]
+
+        print("Weighted average distance:", weighted_sum)
+
         return
 
 
