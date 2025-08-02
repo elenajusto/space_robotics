@@ -48,6 +48,11 @@ class WeightedAverager:
         avgSum = 0
         avgValNum = 0
         for i in range(len(distances)):
+            if distances[i] > self.threshold:
+                print("Distance " + str(distances[i]) + " is an outlier, ignoring it.")
+                continue
+            print("Distance " + str(distances[i]) + " is within the threshold, including it in the average.")
+            # If the distance is within the threshold, add it to the sum
             avgSum += distances[i]
             avgValNum += 1
         avgDistance = avgSum / avgValNum
@@ -78,6 +83,8 @@ class WeightedAverager:
             weighted_sum += weights[i] * distances[i]
 
         print("Weighted average distance:", weighted_sum)
+
+        # Task 5 - Compute the weighted average thresholded distance 
 
         return
 
