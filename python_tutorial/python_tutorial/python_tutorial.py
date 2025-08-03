@@ -24,7 +24,6 @@ class WeightedAverager:
         for lm in self.landmarks:
             dist = math.hypot(lm.x - self.origin.x, lm.y - self.origin.y)
             distances.append(dist)
-            self.parent_logger.info(f"Distance to landmark ({lm.x}, {lm.y}): {dist:.2f}")
         return distances
 
     def filter_distances(self, distances):
@@ -32,9 +31,8 @@ class WeightedAverager:
         for dist in distances:
             if dist <= self.threshold:
                 valid_distances.append(dist)
-                self.parent_logger.info(f"Including distance: {dist:.2f}")
             else:
-                self.parent_logger.info(f"Excluding outlier: {dist:.2f}")
+                continue
         return valid_distances
 
     def compute_weighted_average(self, distances):
@@ -46,8 +44,6 @@ class WeightedAverager:
         weights /= weights.sum()  # Normalize weights
 
         weighted_sum = sum(w * d for w, d in zip(weights, distances))
-        self.parent_logger.info(f"Normalized Weights: {weights.tolist()}")
-        self.parent_logger.info(f"Weighted Average Distance: {weighted_sum:.2f}")
 
         return weighted_sum
 
