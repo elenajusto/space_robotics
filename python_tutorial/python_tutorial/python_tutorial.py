@@ -1,7 +1,5 @@
 import math
-import random
 import numpy as np
-
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float32
@@ -9,125 +7,93 @@ from std_msgs.msg import Float32
 
 class Location:
     def __init__(self, x, y):
-
-        # Save the input arguments as object variables
-        self.x = x  # location in x-axis
-        self.y = y  # location in y-axis
+        self.x = x
+        self.y = y
 
 
 class WeightedAverager:
     def __init__(self, node, origin, landmarks):
-
-        # Save the input arguments as object variables
         self.origin = origin
         self.landmarks = landmarks
-
-        # Define parameters
-        self.threshold = 10.0  # outliers beyond this distance should be ignored
-
-        # Setup ROS publisher
+        self.threshold = 10.0
+        self.parent_logger = node.get_logger()
         self.average_pub = node.create_publisher(Float32, 'average', 1)
 
-        # Save the node logger for later use
-        # To print things later, you can use it with self.parent_logger.info(...)
-        self.parent_logger = node.get_logger()
+    def calculate_distances(self):
+        distances = []
+        for lm in self.landmarks:
+            dist = math.hypot(lm.x - self.origin.x, lm.y - self.origin.y)
+            distances.append(dist)
+            self.parent_logger.info(f"Distance to landmark ({lm.x}, {lm.y}): {dist:.2f}")
+        return distances
+
+    def filter_distances(self, distances):
+        valid_distances = []
+        for dist in distances:
+            if dist <= self.threshold:
+                valid_distances.append(dist)
+                self.parent_logger.info(f"Including distance: {dist:.2f}")
+            else:
+                self.parent_logger.info(f"Excluding outlier: {dist:.2f}")
+        return valid_distances
+
+    def compute_weighted_average(self, distances):
+        if not distances:
+            self.parent_logger.warn("No valid distances to compute weighted average.")
+            return None
+
+        weights = np.random.rand(len(distances))
+        weights /= weights.sum()  # Normalize weights
+
+        weighted_sum = sum(w * d for w, d in zip(weights, distances))
+        self.parent_logger.info(f"Normalized Weights: {weights.tolist()}")
+        self.parent_logger.info(f"Weighted Average Distance: {weighted_sum:.2f}")
+
+        return weighted_sum
 
     def weighted_average(self):
-        distances = [] # List to hold distances
-
-        # Task 2 - Calculate Distance
-        for landmark in self.landmarks:
-            distance = math.sqrt((landmark.x - self.origin.x) ** 2 + (landmark.y - self.origin.y) ** 2)
-            distances.append(distance)
-            print("Distance from origin to landmark at (" + str(landmark.x) + ", " + str(landmark.y) + ") is " + str(distance))
-        
-        print("Distance List: ", distances) # TODO: Debug
-
-        # Task 3 - Calculate Average
-        # Avg = Sum of each value / # of values
-        avgSum = 0
-        avgValNum = 0
-        for i in range(len(distances)):
-            if distances[i] > self.threshold:
-                print("Distance " + str(distances[i]) + " is an outlier, ignoring it.")
-                continue
-            print("Distance " + str(distances[i]) + " is within the threshold, including it in the average.")
-            # If the distance is within the threshold, add it to the sum
-            avgSum += distances[i]
-            avgValNum += 1
-        avgDistance = avgSum / avgValNum
-
-        print("Average distance: ", avgDistance) # TODO: Debug
-
-        # Task 4 - Compute weighted average
-        weights = []
-        for i in range(len(distances)):
-            random = np.random.rand()
-            weights.append(random)
-
-        print("Raw Weights: ", weights) # TODO: Debug
-
-        weight_sum = 0
-        for w in weights:
-            weight_sum += w
-
-        print("Raw Weight Sum: ", weight_sum) # TODO: Debug
-
-        for i in range(len(weights)):
-            weights[i] = weights[i] / weight_sum    
-
-        print("Normalized Weights:", weights)
-
-        weighted_sum = 0
-        for i in range(len(distances)):
-            weighted_sum += weights[i] * distances[i]
-
-        print("Weighted average distance:", weighted_sum)
-
-        # Task 5 - Compute the weighted average thresholded distance 
-
-        return
+        distances = self.calculate_distances()
+        valid_distances = self.filter_distances(distances)
+        return self.compute_weighted_average(valid_distances)
 
 
 class PythonTutorialNode(Node):
     def __init__(self):
-        # Initialise this node
         super().__init__('python_tutorial_node')
+        self.get_logger().info('Initialized python_tutorial ROS node.')
 
-        # Print message
-        # In ROS, we use this syntax to get the 'logger' attached to this node then use the 'info'
-        # category for this message
-        self.get_logger().info('Finished setting up python_tutorial ROS node.')
-
-        # Setup the data
         origin = Location(5.0, 5.0)
-        landmarks = [Location(6.0, 7.0), Location(5.1, 4.9), Location(15.0, 20.0), Location(
-            8.0, 0.0), Location(-3.0, 2.0), Location(-10.0, -10.0), Location(5.0, 5.0), Location(0.0, 0.0)]
+        landmarks = [
+            Location(6.0, 7.0), Location(5.1, 4.9), Location(15.0, 20.0),
+            Location(8.0, 0.0), Location(-3.0, 2.0), Location(-10.0, -10.0),
+            Location(5.0, 5.0), Location(0.0, 0.0)
+        ]
 
-        # Task 1 - Print Elements
-        counter = 0
-        while counter < len(landmarks):
-            print("coordinate " + str(counter) + ": " + str(landmarks[counter].x) + "," + str(landmarks[counter].y))
-            counter += 1
-        
-        # Create the WeightedAverager object
-        weighted_averager = WeightedAverager(self, origin, landmarks)
+        for idx, lm in enumerate(landmarks):
+            self.get_logger().info(f"Coordinate {idx}: ({lm.x}, {lm.y})")
 
-        weighted_averager.weighted_average() # Call the loop of distances
+        self.weighted_averager = WeightedAverager(self, origin, landmarks)
 
-        # Call the averaging function
-        # answer = weighted_averager.weighted_average()
+        self.counter = 0
+        self.timer = self.create_timer(2.0, self.timer_callback)
+        self.get_logger().info('Python node initialized with a 2-second timer.')
+
+    def timer_callback(self):
+        self.counter += 1
+        self.answer = self.weighted_averager.weighted_average()
+        self.get_logger().info(f'Timer callback #{self.counter}, Weighted Average: {self.answer}')
 
 
 def main():
-    # Initialise
     rclpy.init()
-
-    # Create a ROS2 node where our code will run
-    python_tutorial_node = PythonTutorialNode()
-    
-    while rclpy.ok():
-        rclpy.spin(python_tutorial_node)
+    node = PythonTutorialNode()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
 
 
 if __name__ == '__main__':
