@@ -1,2 +1,7 @@
 *.bkp
 world_data/
+build/
+install/
+log/
+stage/
+stage_ros2/
