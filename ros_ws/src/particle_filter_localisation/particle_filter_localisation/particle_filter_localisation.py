@@ -218,6 +218,7 @@ class ParticleFilter(Node):
         self.clicked_point_sub_ = self.create_subscription(PointStamped, 'clicked_point', self.clicked_point_callback, 1) # Subscribes to clicked point from rviz
 
         # Initialise particles
+        print("Initialising particles...") # TODO: Debug
         self.initialise_particles()
 
     def initialise_particles(self):
@@ -228,7 +229,7 @@ class ParticleFilter(Node):
 
         # Clear the particles array
         self.particles_ = []
-
+        
         # You want to initialise the particles in the "self.particles_" array
         # "random_uniform(a, b)" will give you a random value with uniform distribution between "a" and "b"
         # "self.map_x_min_", "self.map_x_max_", "self.map_y_min_", and "self.map_y_max_" give you the limits of the map
@@ -239,11 +240,27 @@ class ParticleFilter(Node):
         ## TASK 1         ##
         ####################
 
+        # Overview of task
+        # Create a set of particles in array self.particles_
+        # Number of particles to create is self.num_particles_
 
+        # Look at value for number of particles
+        print("ELENA CODE IS HERE: ")
+        print("Number of particles: ", self.num_particles_)
 
+        for i in range(self.num_particles_):
+            # Create a new particle
+            particle_x = random_uniform(self.map_x_min_, self.map_x_max_)
+            particle_y = random_uniform(self.map_y_min_, self.map_y_max_)
+            particle_angle = random_uniform(0, 2 * math.pi)
+            particle_weight = 1.0 / self.num_particles_ 
 
+            # Save particle 
+            self.particles_.append(Particle(particle_x, particle_y, particle_angle, particle_weight)) 
 
-
+        # View created particles
+        for i in range(self.num_particles_):
+            print("Particle ", i, ": x=", self.particles_[i].x, ", y=", self.particles_[i].y, ", theta=", self.particles_[i].theta, ", weight=", self.particles_[i].weight)
 
         # Don't use the estimated pose just after initialisation
         self.estimated_pose_valid_ = False
