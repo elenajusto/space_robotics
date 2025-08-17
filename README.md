@@ -21,9 +21,10 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
 # particle_filter_localisation
-This will be the directory for assignment 1.
+This will be the directory for assignment 1 located in `ros_ws/src/particle_filter_localisation`
 
-Located in `ros_ws/src/particle_filter_localisation`
+Each task requires you to insert new code within the template code file
+`particle_filter_localisation/particle_filter_localisation.py`
 
 # python_tutorial
 Diagram to help conceptulise what is happening regarding coordinates.
