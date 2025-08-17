@@ -21,7 +21,6 @@ from visualization_msgs.msg import MarkerArray
 
 from .distance_transform import distance_transform
 
-
 class Particle:
     def __init__(self, x, y, theta, weight):
         self.x = x
@@ -290,8 +289,7 @@ class ParticleFilter(Node):
         # Induce a sensing update
         self.motion_update_count_laser_ = self.num_motion_updates_laser_
         self.motion_update_count_terrain_ = self.num_motion_updates_terrain_
-
-        
+ 
     def normalise_weights(self):
         """Normalise the weights of the particles in self.particles_"""
 
@@ -301,12 +299,6 @@ class ParticleFilter(Node):
         ## YOUR CODE HERE ##
         ## Task 2         ##
         ####################
-
-
-
-        
-
-
 
     def hit_scan(self, start_x, start_y, theta, max_range, draw=False):
         """Find the nearest obstacle from position start_x, start_y (in metres) in direction theta"""
@@ -341,7 +333,6 @@ class ParticleFilter(Node):
 
         # Get distance to hit
         return math.sqrt(math.pow(start_x - hit_x, 2) + math.pow(start_y - hit_y, 2))
-
 
     def estimate_pose(self):
         """Position of the estimated pose"""
@@ -381,7 +372,6 @@ class ParticleFilter(Node):
 
         self.estimated_pose_theta_ = estimated_pose_theta
         self.estimated_pose_valid_ = True
-
 
     def resample_particles(self):
         """Resample the particles (weights are expected to be normalised)"""
@@ -442,7 +432,6 @@ class ParticleFilter(Node):
         # Induce a sensing update
         self.motion_update_count_laser_ = self.num_motion_updates_laser_ 
         self.motion_update_count_terrain_ = self.num_motion_updates_terrain_ 
-
 
     def publish_particles(self):
         """Publish the particles for visualisation"""
@@ -750,7 +739,6 @@ class ParticleFilter(Node):
         # Publish debug marker
         self.marker_laser_pub_.publish(self.marker_)
 
-
     def compass_fusion(self):
         """Include measurements from the compass in the estimate"""
 
@@ -770,12 +758,6 @@ class ParticleFilter(Node):
         ## YOUR CODE HERE ##
         ## Task 8         ##
         ####################
-
-        
-
-
-
-
 
     def compass_callback(self, compass_msg):
         """Recieve a compass message"""
@@ -878,7 +860,6 @@ def find_hit_df(img, p1, p2):
 
     # No hits found
     return p2
-
 
 class VisualTerrainMap:
 
