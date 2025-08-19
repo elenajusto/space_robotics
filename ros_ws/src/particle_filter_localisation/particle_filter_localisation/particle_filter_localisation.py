@@ -218,7 +218,6 @@ class ParticleFilter(Node):
         self.clicked_point_sub_ = self.create_subscription(PointStamped, 'clicked_point', self.clicked_point_callback, 1) # Subscribes to clicked point from rviz
 
         # Initialise particles
-        print("Initialising particles...") # TODO: Debug
         self.initialise_particles()
 
     def initialise_particles(self):
@@ -258,9 +257,9 @@ class ParticleFilter(Node):
             # Save particle 
             self.particles_.append(Particle(particle_x, particle_y, particle_angle, particle_weight)) 
 
-        # View created particles
+        # View created particles - DEBUG
         for i in range(self.num_particles_):
-            print("Particle ", i, ": x=", self.particles_[i].x, ", y=", self.particles_[i].y, ", theta=", self.particles_[i].theta, ", weight=", self.particles_[i].weight)
+            print("[Elena Debug] Particle ", i, ": x=", self.particles_[i].x, ", y=", self.particles_[i].y, ", theta=", self.particles_[i].theta, ", weight=", self.particles_[i].weight)
 
         # Don't use the estimated pose just after initialisation
         self.estimated_pose_valid_ = False
@@ -316,6 +315,21 @@ class ParticleFilter(Node):
         ## YOUR CODE HERE ##
         ## Task 2         ##
         ####################
+
+        # Since self.num_particles_ can be outdated
+        # We will work with the sum of weights of existing particles
+        total_weight = sum(p.weight for p in self.particles_)
+        if total_weight > 0:
+            # Divide each paticle by the total weight
+            for p in self.particles_:
+                p.weight /= total_weight
+                print("[Elena Debug] Normalised particle weight: ", p.weight)
+        else:
+            # If all weights are zero, assign equal weights
+            num_particles = len(self.particles_)
+            if num_particles > 0:
+                for p in self.particles_:
+                    p.weight = 1.0 / num_particles
 
     def hit_scan(self, start_x, start_y, theta, max_range, draw=False):
         """Find the nearest obstacle from position start_x, start_y (in metres) in direction theta"""
