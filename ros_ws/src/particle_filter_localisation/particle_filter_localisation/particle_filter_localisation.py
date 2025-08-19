@@ -244,8 +244,7 @@ class ParticleFilter(Node):
         # Number of particles to create is self.num_particles_
 
         # Look at value for number of particles
-        print("ELENA CODE IS HERE: ")
-        print("Number of particles: ", self.num_particles_)
+        print("[Elena Debug - Task 1] Number of particles: ", self.num_particles_)
 
         for i in range(self.num_particles_):
             # Create a new particle
@@ -259,7 +258,7 @@ class ParticleFilter(Node):
 
         # View created particles - DEBUG
         for i in range(self.num_particles_):
-            print("[Elena Debug] Particle ", i, ": x=", self.particles_[i].x, ", y=", self.particles_[i].y, ", theta=", self.particles_[i].theta, ", weight=", self.particles_[i].weight)
+            print("[Elena Debug - Task 1] Particle ", i, ": x=", self.particles_[i].x, ", y=", self.particles_[i].y, ", theta=", self.particles_[i].theta, ", weight=", self.particles_[i].weight)
 
         # Don't use the estimated pose just after initialisation
         self.estimated_pose_valid_ = False
@@ -294,10 +293,21 @@ class ParticleFilter(Node):
         point_x = clicked_point_msg.point.x
         point_y = clicked_point_msg.point.y
 
+        print("[Elena Debug - Task 3] Clicked point: x=", point_x, ", y=", point_y)
+
+        gaussian_distribution_x = np.random.normal(point_x, self.clicked_point_std_dev_, self.num_particles_)
+        gaussian_distribution_y = np.random.normal(point_y, self.clicked_point_std_dev_, self.num_particles_)
         
+        print("[Elena Debug - Task 3] Gaussian distribution x: ", gaussian_distribution_x)
+        print("[Elena Debug - Task 3] Gaussian distribution y: ", gaussian_distribution_y)
 
-
-
+        for i in range(self.num_particles_):
+            print("[Elena Debug - Task 3] Creating particle ", i, ": x=", gaussian_distribution_x[i], ", y=", gaussian_distribution_y[i])
+            particle_x = gaussian_distribution_x[i]
+            particle_y = gaussian_distribution_y[i]
+            particle_theta = random_uniform(0, 2 * math.pi)
+            particle_weight = 1.0 / self.num_particles_
+            self.particles_.append(Particle(particle_x, particle_y, particle_theta, particle_weight))
 
         # Don't use the estimated pose just after initialisation
         self.estimated_pose_valid_ = False
@@ -323,7 +333,8 @@ class ParticleFilter(Node):
             # Divide each paticle by the total weight
             for p in self.particles_:
                 p.weight /= total_weight
-                print("[Elena Debug] Normalised particle weight: ", p.weight)
+                # TODO: Comment out this debug to see further tasks
+                #print("[Elena Debug - Task 2] Normalised particle weight: ", p.weight)
         else:
             # If all weights are zero, assign equal weights
             num_particles = len(self.particles_)
