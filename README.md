@@ -90,6 +90,7 @@ Terminal Excerpt:
 [particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
 ```
 Image:
+
 ![task_2](https://github.com/elenajusto/space_robotics/blob/main/images/task_2.png)
 
 ## Task 3: Human operator input 
