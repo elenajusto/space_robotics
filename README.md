@@ -69,6 +69,29 @@ particle_filter_localisation-7] [INFO] [1755404571.603887813] [particle_filter_l
 Image:
 ![task_1](https://github.com/elenajusto/space_robotics/blob/main/images/task_1.png)
 
+
+## Task 2: Normalise the weights
+Terminal Excerpt:
+```sh
+[Task 1 Items]
+[particle_filter_localisation-7] [Elena Debug] Particle  495 : x= 0.7837390144723768 , y= 1.0290591824138469 , theta= 0.6731380848859895 , weight= 0.002
+[particle_filter_localisation-7] [Elena Debug] Particle  496 : x= -1.6363628222335067 , y= 0.382219434015715 , theta= 5.700813535467078 , weight= 0.002
+[particle_filter_localisation-7] [Elena Debug] Particle  497 : x= -0.17485779971350635 , y= 3.8697129706192 , theta= 3.2665586641192776 , weight= 0.002
+[particle_filter_localisation-7] [Elena Debug] Particle  498 : x= -3.657429146662379 , y= 3.110209245288929 , theta= 0.3937238382323943 , weight= 0.002
+[particle_filter_localisation-7] [Elena Debug] Particle  499 : x= -3.559582408533349 , y= 1.73400479097824 , theta= 0.6801380652133294 , weight= 0.002
+
+[Task 2 Items]
+[particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
+[particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
+[particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
+[particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
+[particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
+[particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
+[particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
+```
+Image:
+![task_2](https://github.com/elenajusto/space_robotics/blob/main/images/task_2.png)
+
 # python_tutorial
 Diagram to help conceptulise what is happening regarding coordinates.
 
