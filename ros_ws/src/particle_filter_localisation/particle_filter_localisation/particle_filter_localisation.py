@@ -682,17 +682,17 @@ class ParticleFilter(Node):
                 ####################
                 likelihood = 1.0
 
-                # Terrain type at particle
+                # Terrain type at particle - This is class y in the confusion matrix
                 terrain_at_particle = self.visual_terrain_map_.get_ground_truth(p.x, p.y)
                 print("[Elena Debug - Task 5] Particle at x=", p.x, ", y=", p.y, " has terrain type: ", terrain_at_particle)
 
-                # Terrian type at robot
+                # Terrian type at robot - This is class z in the confusion matrix
                 terrain_at_robot = terrain_msg.data
                 print("[Elena Debug - Task 5] Robot observers terrain type: ", terrain_at_robot)
 
                 # Print weight before terrain update
                 print("[Elena Debug - Task 5] Particle weight before terrain update: ", p.weight)
-                
+
                 # Compare terrain type of particle and robot
                 #if terrain_at_particle == terrain_at_robot:
                 #    print("[Elena Debug - Task 5] MATCH")
