@@ -426,6 +426,13 @@ Gif:
 
 ![task_4](https://github.com/elenajusto/space_robotics/blob/main/images/task_4_gif.gif)
 
+## Task 4: Terrain Observation Update
+Termainl excerpt not showing.
+
+Gif:
+
+![task_5](https://github.com/elenajusto/space_robotics/blob/main/images/task_5_gif.gif)
+
 
 # python_tutorial
 Diagram to help conceptulise what is happening regarding coordinates.
