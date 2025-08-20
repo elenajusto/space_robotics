@@ -426,7 +426,7 @@ Gif:
 
 ![task_4](https://github.com/elenajusto/space_robotics/blob/main/images/task_4_gif.gif)
 
-## Task 4: Terrain Observation Update
+## Task 5: Terrain Observation Update
 Termainl excerpt not showing.
 
 Gif:
