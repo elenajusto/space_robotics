@@ -413,6 +413,19 @@ Image:
 
 ![task_3](https://github.com/elenajusto/space_robotics/blob/main/images/task_3.png)
 
+## Task 4: Motion Update
+Terminal Excerpt:
+```sh
+[particle_filter_localisation-7] [Elena Debug - Task 4] Particle before motion update: x= 0.7499340822098212 , y= -0.30889787688876885 , theta= 1.0897263394868855 , weight= 0.0023310023310023154
+[particle_filter_localisation-7] [Elena Debug - Task 4] Particle after motion update: x= 0.7587930546888315 , y= -0.27699274059996193 , theta= 1.1722191521637617 , weight= 0.0023310023310023154
+[particle_filter_localisation-7] [Elena Debug - Task 4] Particle before motion update: x= -2.1653050288915976 , y= -0.8470391674637086 , theta= 3.1901042844964 , weight= 0.0023310023310023154
+[particle_filter_localisation-7] [Elena Debug - Task 4] Particle after motion update: x= -2.191210293692166 , y= -0.8492060471734064 , theta= 3.1525013347594357 , weight= 0.0023310023310023154
+```
+
+Gif:
+
+![task_4](https://github.com/elenajusto/space_robotics/blob/main/images/task_4_gif.gif)
+
 
 # python_tutorial
 Diagram to help conceptulise what is happening regarding coordinates.
