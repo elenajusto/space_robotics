@@ -682,11 +682,64 @@ class ParticleFilter(Node):
                 ####################
                 likelihood = 1.0
 
+                # Terrain type at particle
+                terrain_at_particle = self.visual_terrain_map_.get_ground_truth(p.x, p.y)
+                print("[Elena Debug - Task 5] Particle at x=", p.x, ", y=", p.y, " has terrain type: ", terrain_at_particle)
 
+                # Terrian type at robot
+                terrain_at_robot = terrain_msg.data
+                print("[Elena Debug - Task 5] Robot observers terrain type: ", terrain_at_robot)
 
+                # Print weight before terrain update
+                print("[Elena Debug - Task 5] Particle weight before terrain update: ", p.weight)
+                
+                # Compare terrain type of particle and robot
+                #if terrain_at_particle == terrain_at_robot:
+                #    print("[Elena Debug - Task 5] MATCH")
+                #else:
+                #    print("[Elena Debug - Task 5] NOT MATCH")
 
+                # Add noise using confusion matrix
+                if terrain_at_particle == 0:
+                    # Agree at 0
+                    if terrain_at_robot == 0:
+                        p.weight = 0.9 * p.weight  
+                    else:
+                        p.weight = 0.2 * p.weight
+                elif terrain_at_particle == 1:
+                    # Agree at 1
+                    if terrain_at_robot == 1:
+                        p.weight = 0.9 * p.weight  
+                    else:
+                        p.weight = 0.2 * p.weight
+                elif terrain_at_particle == 2:
+                    # Agree at 2
+                    if terrain_at_robot == 2:
+                        p.weight = 0.9 * p.weight  
+                    else:
+                        p.weight = 0.2 * p.weight
+                elif terrain_at_particle == 3:
+                    # Agree at 3
+                    if terrain_at_robot == 3:
+                        p.weight = 0.9 * p.weight  
+                    else:
+                        p.weight = 0.2 * p.weight
+                elif terrain_at_particle == 4:
+                    # Agree at 4
+                    if terrain_at_robot == 4:
+                        p.weight = 0.9 * p.weight  
+                    else:
+                        p.weight = 0.2 * p.weight
+                elif terrain_at_particle == 5:
+                    # Agree at 5
+                    if terrain_at_robot == 5:
+                        p.weight = 0.9 * p.weight  
+                    else:
+                        p.weight = 0.2 * p.weight
 
-
+                # Print weight after terrin update
+                print("[Elena Debug - Task 5] Particle weight after terrain update: ", p.weight)
+                
                 # Update the particle weight with the likelihood
                 p.weight *= likelihood
 
