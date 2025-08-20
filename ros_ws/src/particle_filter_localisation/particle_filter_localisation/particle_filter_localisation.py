@@ -575,13 +575,27 @@ class ParticleFilter(Node):
         ## Task 4         ##
         ####################
 
+        # Iterate through each particle
+        for p in self.particles_:
 
+            # Debug
+            print("[Elena Debug - Task 4] Particle before motion update: x=", p.x, ", y=", p.y, ", theta=", p.theta, ", weight=", p.weight)
 
+            # Update x position
+            # x = x + (distannce moved + distance noise) * cos(theta)
+            # p.x = p.x + 0.05 # Random value to check update
+            p.x = p.x + (distance + random_normal(self.motion_distance_noise_stddev_)) * math.cos(p.theta)
 
+            # Update y position
+            # y = y + (distance moved + distance noise) * sin(theta)
+            p.y = p.y + (distance + random_normal(self.motion_distance_noise_stddev_)) * math.sin(p.theta)
 
+            # Update angle
+            # theta = wrap_angle(theta + rotation turned + rotation noise)
+            p.theta = wrap_angle(p.theta + rotation + random_normal(self.motion_rotation_noise_stddev_))    
 
-
-
+            # Debug
+            print("[Elena Debug - Task 4] Particle after motion update: x=", p.x, ", y=", p.y, ", theta=", p.theta, ", weight=", p.weight)
 
 
         # Overwrite the previous odometry message
