@@ -395,14 +395,19 @@ class ParticleFilter(Node):
         # estimated_pose_y = ??
         # estimated_pose_theta = ??
 
+        # Assume weighted average approach
+        # For a location (x, y or theta) - Take sum of all location (x, y or theta) with each multiplied by its weight
+        # Final value is divided by sum of weights
+        # Then assign the pose to the final *final* value
+
+        for p in self.particles_:
+        # Estimating x pose
+            
+
+        # Estimateying y pose
 
 
-
-
-
-
-
-
+        # Estimating theta pose
 
 
         # Set the estimated pose message
