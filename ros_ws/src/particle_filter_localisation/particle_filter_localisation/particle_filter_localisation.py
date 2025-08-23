@@ -400,15 +400,9 @@ class ParticleFilter(Node):
         # Final value is divided by sum of weights
         # Then assign the pose to the final *final* value
 
-        for p in self.particles_:
-        # Estimating x pose
-            
-
-        # Estimateying y pose
-
-
-        # Estimating theta pose
-
+        print("[Elena Debug - Task 6] estimated_pose_x = ", estimated_pose_x)
+        print("[Elena Debug - Task 6] estimated_pose_y = ", estimated_pose_y)
+        print("[Elena Debug - Task 6] estimated_pose_theta = ", estimated_pose_theta)
 
         # Set the estimated pose message
         self.estimated_pose_.position.x = estimated_pose_x
@@ -584,7 +578,7 @@ class ParticleFilter(Node):
         for p in self.particles_:
 
             # Debug
-            print("[Elena Debug - Task 4] Particle before motion update: x=", p.x, ", y=", p.y, ", theta=", p.theta, ", weight=", p.weight)
+            #print("[Elena Debug - Task 4] Particle before motion update: x=", p.x, ", y=", p.y, ", theta=", p.theta, ", weight=", p.weight)
 
             # Update x position
             # x = x + (distannce moved + distance noise) * cos(theta)
@@ -600,7 +594,7 @@ class ParticleFilter(Node):
             p.theta = wrap_angle(p.theta + rotation + random_normal(self.motion_rotation_noise_stddev_))    
 
             # Debug
-            print("[Elena Debug - Task 4] Particle after motion update: x=", p.x, ", y=", p.y, ", theta=", p.theta, ", weight=", p.weight)
+            #print("[Elena Debug - Task 4] Particle after motion update: x=", p.x, ", y=", p.y, ", theta=", p.theta, ", weight=", p.weight)
 
 
         # Overwrite the previous odometry message
@@ -689,14 +683,14 @@ class ParticleFilter(Node):
 
                 # Terrain type at particle - This is class y in the confusion matrix
                 terrain_at_particle = self.visual_terrain_map_.get_ground_truth(p.x, p.y)
-                print("[Elena Debug - Task 5] Particle at x=", p.x, ", y=", p.y, " has terrain type: ", terrain_at_particle)
+                #print("[Elena Debug - Task 5] Particle at x=", p.x, ", y=", p.y, " has terrain type: ", terrain_at_particle)
 
                 # Terrian type at robot - This is class z in the confusion matrix
                 terrain_at_robot = terrain_msg.data
-                print("[Elena Debug - Task 5] Robot observers terrain type: ", terrain_at_robot)
+                #print("[Elena Debug - Task 5] Robot observers terrain type: ", terrain_at_robot)
 
                 # Print weight before terrain update
-                print("[Elena Debug - Task 5] Particle weight before terrain update: ", p.weight)
+                #print("[Elena Debug - Task 5] Particle weight before terrain update: ", p.weight)
 
                 # Compare terrain type of particle and robot
                 #if terrain_at_particle == terrain_at_robot:
@@ -743,7 +737,7 @@ class ParticleFilter(Node):
                         p.weight = 0.2 * p.weight
 
                 # Print weight after terrin update
-                print("[Elena Debug - Task 5] Particle weight after terrain update: ", p.weight)
+                #print("[Elena Debug - Task 5] Particle weight after terrain update: ", p.weight)
                 
                 # Update the particle weight with the likelihood
                 p.weight *= likelihood
