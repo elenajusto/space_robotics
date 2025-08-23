@@ -808,11 +808,21 @@ class ParticleFilter(Node):
                     ####################
                     # likelihood = ??
 
+                    # Implementing the PDF of a Gaussian distribution function
 
+                    ray_diff = particle_range - scan_range
+                    ray_likelihood = (1.0 / math.sqrt(2.0 * math.pi * self.sensing_noise_stddev_**2)) * \
+                                    math.exp(-(ray_diff**2) / (2.0 * self.sensing_noise_stddev_**2))
 
+                    likelihood *= ray_likelihood
 
+                    ray_diff = particle_range - scan_range
 
+                    ray_likelihood = (1.0 / math.sqrt(2.0 * math.pi * self.sensing_noise_stddev_**2)) * \
+                                    math.exp(-(ray_diff**2) / (2.0 * self.sensing_noise_stddev_**2))
 
+                    likelihood *= ray_likelihood
+                    
                 # Update the particle weight with the likelihood
                 p.weight *= likelihood
 
