@@ -391,15 +391,28 @@ class ParticleFilter(Node):
         ## YOUR CODE HERE ##
         ## Task 6         ##
         ####################
-        # estimated_pose_x = ??
-        # estimated_pose_y = ??
-        # estimated_pose_theta = ??
 
         # Assume weighted average approach
-        # For a location (x, y or theta) - Take sum of all location (x, y or theta) with each multiplied by its weight
-        # Final value is divided by sum of weights
-        # Then assign the pose to the final *final* value
+        weighted_x = 0.0
+        weighted_y = 0.0
+        cos_sum = 0.0
+        sin_sum = 0.0
 
+        # Calculate weighted averages
+        for p in self.particles_:
+            weighted_x += p.x * p.weight
+            weighted_y += p.y * p.weight
+        
+        # For angular values, we need to use circular mean
+        cos_sum += math.cos(p.theta) * p.weight
+        sin_sum += math.sin(p.theta) * p.weight
+
+        # Calculate final pose estimates
+        estimated_pose_x = weighted_x  # Weights should sum to 1.0
+        estimated_pose_y = weighted_y
+        estimated_pose_theta = math.atan2(sin_sum, cos_sum)
+        
+        # Debug
         print("[Elena Debug - Task 6] estimated_pose_x = ", estimated_pose_x)
         print("[Elena Debug - Task 6] estimated_pose_y = ", estimated_pose_y)
         print("[Elena Debug - Task 6] estimated_pose_theta = ", estimated_pose_theta)

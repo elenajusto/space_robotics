@@ -139,6 +139,21 @@ Gif:
 
 ![task_5](https://github.com/elenajusto/space_robotics/blob/main/images/task_5_gif.gif)
 
+
+## Task 6: Pose estimate
+Terminal excerpt:
+```sh
+[particle_filter_localisation-7] [Elena Debug - Task 1] Particle  497 : x= -4.850524473696125 , y= 4.914847139549949 , theta= 4.87659693515706 , weight= 0.002
+[particle_filter_localisation-7] [Elena Debug - Task 1] Particle  498 : x= 3.29678205553689 , y= -3.3984503722849966 , theta= 3.889552256853763 , weight= 0.002
+[particle_filter_localisation-7] [Elena Debug - Task 1] Particle  499 : x= 4.109906565107123 , y= 2.8822890474988787 , theta= 2.1479091142543005 , weight= 0.002
+[particle_filter_localisation-7] [Elena Debug - Task 6] estimated_pose_x =  -0.6202051730498539
+[particle_filter_localisation-7] [Elena Debug - Task 6] estimated_pose_y =  1.62349180702847
+[particle_filter_localisation-7] [Elena Debug - Task 6] estimated_pose_theta =  -1.3484048785351084
+```
+
+Gif:
+![task_6](https://github.com/elenajusto/space_robotics/blob/main/images/task_6.gif)
+
 # python_tutorial
 Diagram to help conceptulise what is happening regarding coordinates.
 
