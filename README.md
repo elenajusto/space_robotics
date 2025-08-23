@@ -153,12 +153,14 @@ Terminal excerpt:
 ```
 
 Gif:
+
 ![task_6](https://github.com/elenajusto/space_robotics/blob/main/images/task_6.gif)
 
 
 ## Task 7: Laser scan observation update
 
 Gif:
+
 ![task_7](https://github.com/elenajusto/space_robotics/blob/main/images/task_7.gif)
 
 # python_tutorial
