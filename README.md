@@ -2,10 +2,28 @@
 Repo to hold code and notes I have for the Space Robotics subject at UTS.
 
 # Assessment 1: Particle Filter Localisation
+Name: Elena Justo
+Student Number: 24429298
+
 This will be the directory for assignment 1 located in `ros_ws/src/particle_filter_localisation`
 
 Each task involves adding new code within the template code file:
 `particle_filter_localisation/particle_filter_localisation.py`
+
+### Summary of what was achieved
+Qualtitively I can say that my filter is able to reasonably predict the pose of the robot most of the time.
+
+### Reflection on development methodology
+Given the presence of template code, I made use of debug statements to confirm variables and code navigation to understand the layout of the data structure. 
+
+Implementing the tasks themselves became pretty straightforward after establishing a working understanding of the available variables.
+
+### Improvements if I had more time
+Implement a system to be able to quantiatively log and measure accuracy of pose estimation and how much each new sensor or code implementation affects accuracy (maybe in the form of interactive graph or something).
+
+### Link to video
+```<Youtube link>```
+The above video demonstrates the fully functioning system, however if you follow the below task outlines, there are images and gif's that demonstrate the features as each task is completed.
 
 ## Task 1: Initialise the particles
 ### Terminal Excerpt
