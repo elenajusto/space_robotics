@@ -34,7 +34,7 @@ If a magnetometer had been available, I expect it would have reduced drift and m
 Implement a system to be able to quantiatively log and measure accuracy of pose estimation and how much each new sensor or code implementation affects accuracy (maybe in the form of interactive graph or something).
 
 ### Video Demonstration
-[![Demo](https://i.sstatic.net/BR6HmeLZgOo.png)](https://youtu.be/BR6HmeLZgOo)
+[![Demo](https://img.youtube.com/vi/BR6HmeLZgOo/hqdefault.jpg)](https://youtu.be/BR6HmeLZgOo)
 
 The above video demonstrates the fully functioning system, however if you follow the below task outlines, there are images and gif's that demonstrate the features as each task is completed.
 
