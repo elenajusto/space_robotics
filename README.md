@@ -1,45 +1,14 @@
 # Space Robotics Repository
 Repo to hold code and notes I have for the Space Robotics subject at UTS.
 
-# Commands
-
-## Setup ROS Environment
-You have to repeat the above two commands every time you open a new terminal.
-```sh
-source /opt/ros/humble/setup.bash
-source ~/ros_ws/install/setup.bash
-```
-
-## Building code
-Build all packages/nodes in the workspace by running:
-```sh
-colcon build
-```
-
-You can also build an individual package at a time using (in case other packages are causing issues)
-
-```sh
-colcon build --packages-select particle_filter_localisation
-```
-
-## Assignment 1 - particle_filter_localisation
-1. Execute the program:
-```sh
-ros2 launch particle_filter_localisation particle_filter_localisation_launch.py
-```
-2. To control the robot:
-```sh
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
-```
-
-# particle_filter_localisation
+# Assessment 1: Particle Filter Localisation
 This will be the directory for assignment 1 located in `ros_ws/src/particle_filter_localisation`
 
-Each task requires you to insert new code within the template code file
+Each task involves adding new code within the template code file:
 `particle_filter_localisation/particle_filter_localisation.py`
 
 ## Task 1: Initialise the particles
-Terminal Excerpt:
+### Terminal Excerpt
 ```
 particle_filter_localisation-7] [INFO] [1755404571.603887813] [particle_filter_localisation]: Map received
 [particle_filter_localisation-7] Initialising particles...
@@ -49,33 +18,46 @@ particle_filter_localisation-7] [INFO] [1755404571.603887813] [particle_filter_l
 [particle_filter_localisation-7] Particle  1 : x= -0.5229773589749893 , y= -4.7229086151963715 , theta= 1.7002927009419688 , weight= 0.002
 [particle_filter_localisation-7] Particle  2 : x= -0.4664302560862774 , y= -1.6076763492630453 , theta= 3.8277917338689647 , weight= 0.002
 [particle_filter_localisation-7] Particle  3 : x= -3.9102432520196118 , y= -3.253604137372422 , theta= 5.42550954922847 , weight= 0.002
-[particle_filter_localisation-7] Particle  4 : x= -2.0655768112026145 , y= 1.6927649275807228 , theta= 2.729673207339105 , weight= 0.002
-[particle_filter_localisation-7] Particle  5 : x= 2.264821200207198 , y= 4.277370542768261 , theta= 2.239795537470206 , weight= 0.002
-[particle_filter_localisation-7] Particle  6 : x= 1.5792594994093587 , y= 0.5904668610032324 , theta= 1.5427906502797077 , weight= 0.002
-[particle_filter_localisation-7] Particle  7 : x= 2.9334253809914683 , y= 3.421619791008937 , theta= 0.5052109012528094 , weight= 0.002
-[particle_filter_localisation-7] Particle  8 : x= -1.186220578104575 , y= -3.344614988691592 , theta= 4.933105919283807 , weight= 0.002
-[particle_filter_localisation-7] Particle  9 : x= 3.6041430833921018 , y= -4.981059427457782 , theta= 5.683933362095419 , weight= 0.002
-[particle_filter_localisation-7] Particle  10 : x= -1.4921747614040384 , y= 3.3719331054620065 , theta= 5.770384222157356 , weight= 0.002
-[particle_filter_localisation-7] Particle  11 : x= -0.01993272115254019 , y= 4.121128922415655 , theta= 2.338780944032725 , weight= 0.002
-[particle_filter_localisation-7] Particle  12 : x= -2.7957243332753183 , y= -0.5077539012945484 , theta= 1.
 ...
 ```
-
-Image:
+### Image
 ![task_1](https://github.com/elenajusto/space_robotics/blob/main/images/task_1.png)
 
+### Code Excerpt
+```python
+print("[Elena Debug - Task 1] Number of particles: ", self.num_particles_)
 
+for i in range(self.num_particles_):
+    # Create a new particle
+    particle_x = random_uniform(self.map_x_min_, self.map_x_max_)
+    particle_y = random_uniform(self.map_y_min_, self.map_y_max_)
+    particle_angle = random_uniform(0, 2 * math.pi)
+    particle_weight = 1.0 / self.num_particles_ 
+
+    # Save particle 
+    self.particles_.append(Particle(particle_x, particle_y, particle_angle, particle_weight)) 
+
+# View created particles - DEBUG
+for i in range(self.num_particles_):
+    print("[Elena Debug - Task 1] Particle ", i, ": x=", self.particles_[i].x, ", y=", self.particles_[i].y, ", theta=", self.particles_[i].theta, ", weight=", self.particles_[i].weight)
+
+# Don't use the estimated pose just after initialisation
+self.estimated_pose_valid_ = False
+
+# Induce a sensing update
+self.motion_update_count_laser_ = self.num_motion_updates_laser_
+self.motion_update_count_terrain_ = self.num_motion_updates_terrain_
+
+```
 ## Task 2: Normalise the weights
-Terminal Excerpt:
+### Terminal Excerpt
 ```sh
-[Task 1 Items]
+...
 [particle_filter_localisation-7] [Elena Debug] Particle  495 : x= 0.7837390144723768 , y= 1.0290591824138469 , theta= 0.6731380848859895 , weight= 0.002
 [particle_filter_localisation-7] [Elena Debug] Particle  496 : x= -1.6363628222335067 , y= 0.382219434015715 , theta= 5.700813535467078 , weight= 0.002
 [particle_filter_localisation-7] [Elena Debug] Particle  497 : x= -0.17485779971350635 , y= 3.8697129706192 , theta= 3.2665586641192776 , weight= 0.002
 [particle_filter_localisation-7] [Elena Debug] Particle  498 : x= -3.657429146662379 , y= 3.110209245288929 , theta= 0.3937238382323943 , weight= 0.002
 [particle_filter_localisation-7] [Elena Debug] Particle  499 : x= -3.559582408533349 , y= 1.73400479097824 , theta= 0.6801380652133294 , weight= 0.002
-
-[Task 2 Items]
 [particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
 [particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
 [particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
@@ -83,14 +65,33 @@ Terminal Excerpt:
 [particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
 [particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
 [particle_filter_localisation-7] [Elena Debug] Normalised particle weight:  0.0019999999999999987
+...
 ```
-Image:
-
+### Image
 ![task_2](https://github.com/elenajusto/space_robotics/blob/main/images/task_2.png)
 
-## Task 3: Human operator input 
-Terminal Excerpt:
+### Code Excerpt
+```python
+# Since self.num_particles_ can be outdated
+# We will work with the sum of weights of existing particles
+total_weight = sum(p.weight for p in self.particles_)
+if total_weight > 0:
+    # Divide each paticle by the total weight
+    for p in self.particles_:
+        p.weight /= total_weight
+        # TODO: Comment out this debug to see further tasks
+        #print("[Elena Debug - Task 2] Normalised particle weight: ", p.weight)
+else:
+    # If all weights are zero, assign equal weights
+    num_particles = len(self.particles_)
+    if num_particles > 0:
+        for p in self.particles_:
+            p.weight = 1.0 / num_particles
+```
 
+## Task 3: Human operator input 
+
+### Terminal Excerpt
 ```sh
 [particle_filter_localisation-7] [Elena Debug - Task 3] Clicked point: x= 0.09914769232273102 , y= -0.06611382961273193
 [particle_filter_localisation-7] [Elena Debug - Task 3] Gaussian distribution x:  [-5.09867834e-01  9.02796069e-01  2.63467833e-01  2.95065820e-01
@@ -113,14 +114,41 @@ Terminal Excerpt:
 [particle_filter_localisation-7] [Elena Debug - Task 3] Creating particle  3 : x= 0.29506582022172967 , y= -0.6320812414438572
 [particle_filter_localisation-7] [Elena Debug - Task 3] Creating particle  4 : x= 0.5782187086998152 , y= 0.009889497131505526
 ...
-
 ```
-Image:
-
+### Image
 ![task_3](https://github.com/elenajusto/space_robotics/blob/main/images/task_3.png)
 
+### Code Excerpt
+```python
+point_x = clicked_point_msg.point.x
+point_y = clicked_point_msg.point.y
+
+print("[Elena Debug - Task 3] Clicked point: x=", point_x, ", y=", point_y)
+
+gaussian_distribution_x = np.random.normal(point_x, self.clicked_point_std_dev_, self.num_particles_)
+gaussian_distribution_y = np.random.normal(point_y, self.clicked_point_std_dev_, self.num_particles_)
+
+print("[Elena Debug - Task 3] Gaussian distribution x: ", gaussian_distribution_x)
+print("[Elena Debug - Task 3] Gaussian distribution y: ", gaussian_distribution_y)
+
+for i in range(self.num_particles_):
+    print("[Elena Debug - Task 3] Creating particle ", i, ": x=", gaussian_distribution_x[i], ", y=", gaussian_distribution_y[i])
+    particle_x = gaussian_distribution_x[i]
+    particle_y = gaussian_distribution_y[i]
+    particle_theta = random_uniform(0, 2 * math.pi)
+    particle_weight = 1.0 / self.num_particles_
+    self.particles_.append(Particle(particle_x, particle_y, particle_theta, particle_weight))
+
+# Don't use the estimated pose just after initialisation
+self.estimated_pose_valid_ = False
+
+# Induce a sensing update
+self.motion_update_count_laser_ = self.num_motion_updates_laser_
+self.motion_update_count_terrain_ = self.num_motion_updates_terrain_
+```
+
 ## Task 4: Motion Update
-Terminal Excerpt:
+### Terminal Excerpt
 ```sh
 [particle_filter_localisation-7] [Elena Debug - Task 4] Particle before motion update: x= 0.7499340822098212 , y= -0.30889787688876885 , theta= 1.0897263394868855 , weight= 0.0023310023310023154
 [particle_filter_localisation-7] [Elena Debug - Task 4] Particle after motion update: x= 0.7587930546888315 , y= -0.27699274059996193 , theta= 1.1722191521637617 , weight= 0.0023310023310023154
@@ -128,20 +156,106 @@ Terminal Excerpt:
 [particle_filter_localisation-7] [Elena Debug - Task 4] Particle after motion update: x= -2.191210293692166 , y= -0.8492060471734064 , theta= 3.1525013347594357 , weight= 0.0023310023310023154
 ```
 
-Gif:
-
+### Gif
 ![task_4](https://github.com/elenajusto/space_robotics/blob/main/images/task_4_gif.gif)
 
+### Code Excerpt
+```python
+# Iterate through each particle
+for p in self.particles_:
+
+    # Debug
+    #print("[Elena Debug - Task 4] Particle before motion update: x=", p.x, ", y=", p.y, ", theta=", p.theta, ", weight=", p.weight)
+
+    # Update x position
+    # x = x + (distannce moved + distance noise) * cos(theta)
+    # p.x = p.x + 0.05 # Random value to check update
+    p.x = p.x + (distance + random_normal(self.motion_distance_noise_stddev_)) * math.cos(p.theta)
+
+    # Update y position
+    # y = y + (distance moved + distance noise) * sin(theta)
+    p.y = p.y + (distance + random_normal(self.motion_distance_noise_stddev_)) * math.sin(p.theta)
+
+    # Update angle
+    # theta = wrap_angle(theta + rotation turned + rotation noise)
+    p.theta = wrap_angle(p.theta + rotation + random_normal(self.motion_rotation_noise_stddev_))    
+
+    # Debug
+    #print("[Elena Debug - Task 4] Particle after motion update: x=", p.x, ", y=", p.y, ", theta=", p.theta, ", weight=", p.weight)
+```
+
 ## Task 5: Terrain Observation Update
-Termainl excerpt not showing.
 
-Gif:
-
+### Gif
 ![task_5](https://github.com/elenajusto/space_robotics/blob/main/images/task_5_gif.gif)
 
+### Code Excerpt
+```python
+likelihood = 1.0
+# Terrain type at particle - This is class y in the confusion matrix
+terrain_at_particle = self.visual_terrain_map_.get_ground_truth(p.x, p.y)
+#print("[Elena Debug - Task 5] Particle at x=", p.x, ", y=", p.y, " has terrain type: ", terrain_at_particle)
+
+# Terrian type at robot - This is class z in the confusion matrix
+terrain_at_robot = terrain_msg.data
+#print("[Elena Debug - Task 5] Robot observers terrain type: ", terrain_at_robot)
+
+# Print weight before terrain update
+#print("[Elena Debug - Task 5] Particle weight before terrain update: ", p.weight)
+
+# Compare terrain type of particle and robot
+#if terrain_at_particle == terrain_at_robot:
+#    print("[Elena Debug - Task 5] MATCH")
+#else:
+#    print("[Elena Debug - Task 5] NOT MATCH")
+
+# Add noise using confusion matrix
+if terrain_at_particle == 0:
+    # Agree at 0
+    if terrain_at_robot == 0:
+        p.weight = 0.9 * p.weight  
+    else:
+        p.weight = 0.2 * p.weight
+elif terrain_at_particle == 1:
+    # Agree at 1
+    if terrain_at_robot == 1:
+        p.weight = 0.9 * p.weight  
+    else:
+        p.weight = 0.2 * p.weight
+elif terrain_at_particle == 2:
+    # Agree at 2
+    if terrain_at_robot == 2:
+        p.weight = 0.9 * p.weight  
+    else:
+        p.weight = 0.2 * p.weight
+elif terrain_at_particle == 3:
+    # Agree at 3
+    if terrain_at_robot == 3:
+        p.weight = 0.9 * p.weight  
+    else:
+        p.weight = 0.2 * p.weight
+elif terrain_at_particle == 4:
+    # Agree at 4
+    if terrain_at_robot == 4:
+        p.weight = 0.9 * p.weight  
+    else:
+        p.weight = 0.2 * p.weight
+elif terrain_at_particle == 5:
+    # Agree at 5
+    if terrain_at_robot == 5:
+        p.weight = 0.9 * p.weight  
+    else:
+        p.weight = 0.2 * p.weight
+
+# Print weight after terrin update
+#print("[Elena Debug - Task 5] Particle weight after terrain update: ", p.weight)
+
+# Update the particle weight with the likelihood
+p.weight *= likelihood
+```
 
 ## Task 6: Pose estimate
-Terminal excerpt:
+### Terminal Excerpt
 ```sh
 ...
 [particle_filter_localisation-7] [Elena Debug - Task 1] Particle  497 : x= -4.850524473696125 , y= 4.914847139549949 , theta= 4.87659693515706 , weight= 0.002
@@ -152,18 +266,69 @@ Terminal excerpt:
 [particle_filter_localisation-7] [Elena Debug - Task 6] estimated_pose_theta =  -1.3484048785351084
 ```
 
-Gif:
-
+### Gif
 ![task_6](https://github.com/elenajusto/space_robotics/blob/main/images/task_6.gif)
 
+### Code Excerpt
+```python
+# Assume weighted average approach
+weighted_x = 0.0
+weighted_y = 0.0
+cos_sum = 0.0
+sin_sum = 0.0
 
+# Calculate weighted averages
+for p in self.particles_:
+    weighted_x += p.x * p.weight
+    weighted_y += p.y * p.weight
+
+# For angular values, we need to use circular mean
+cos_sum += math.cos(p.theta) * p.weight
+sin_sum += math.sin(p.theta) * p.weight
+
+# Calculate final pose estimates
+estimated_pose_x = weighted_x  # Weights should sum to 1.0
+estimated_pose_y = weighted_y
+estimated_pose_theta = math.atan2(sin_sum, cos_sum)
+
+# Debug
+print("[Elena Debug - Task 6] estimated_pose_x = ", estimated_pose_x)
+print("[Elena Debug - Task 6] estimated_pose_y = ", estimated_pose_y)
+print("[Elena Debug - Task 6] estimated_pose_theta = ", estimated_pose_theta)
+
+# Set the estimated pose message
+self.estimated_pose_.position.x = estimated_pose_x
+self.estimated_pose_.position.y = estimated_pose_y
+
+self.estimated_pose_.orientation.w = math.cos(estimated_pose_theta / 2.)
+self.estimated_pose_.orientation.z = math.sin(estimated_pose_theta / 2.)
+
+self.estimated_pose_theta_ = estimated_pose_theta
+self.estimated_pose_valid_ = True
+```
 ## Task 7: Laser scan observation update
 
-Gif:
-
+### Gif
 ![task_7](https://github.com/elenajusto/space_robotics/blob/main/images/task_7.gif)
 
-# python_tutorial
+### Code Excerpt
+```python
+# Implementing the PDF of a Gaussian distribution function
+ray_diff = particle_range - scan_range
+ray_likelihood = (1.0 / math.sqrt(2.0 * math.pi * self.sensing_noise_stddev_**2)) * \
+                math.exp(-(ray_diff**2) / (2.0 * self.sensing_noise_stddev_**2))
+
+likelihood *= ray_likelihood
+
+ray_diff = particle_range - scan_range
+
+ray_likelihood = (1.0 / math.sqrt(2.0 * math.pi * self.sensing_noise_stddev_**2)) * \
+                math.exp(-(ray_diff**2) / (2.0 * self.sensing_noise_stddev_**2))
+
+likelihood *= ray_likelihood
+```
+
+# Lab 1 Tutorial
 Diagram to help conceptulise what is happening regarding coordinates.
 
 ![coordinates](https://github.com/elenajusto/space_robotics/blob/main/images/coordinates.png)
