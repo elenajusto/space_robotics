@@ -12,18 +12,30 @@ Each task involves adding new code within the template code file:
 `particle_filter_localisation/particle_filter_localisation.py`
 
 ### Summary of what was achieved
-Qualtitively I can say that my filter is able to reasonably predict the pose of the robot most of the time.
+Qualitatively, my filter is able to predict the robot’s pose reasonably well some of the time.
+
+Pose estimation works fairly accurately in placing the estimated pose where the highest-likelihood particles concentrate.
+
+A key limitation is that while the filter predicts pose consistently at the particle clusters, it is still prone to noise and drift. For example, over time the predicted pose can remain consistent but steadily shift away from the robot’s true location.
+
+I did not complete Task 8 due to time constraints.
 
 ### Reflection on development methodology
-Given the presence of template code, I made use of debug statements to confirm variables and code navigation to understand the layout of the data structure. 
+With the provided template code, I relied heavily on debug statements to confirm variable states and used code navigation to understand the data structures.
 
-Implementing the tasks themselves became pretty straightforward after establishing a working understanding of the available variables.
+Once I built up that working understanding of the variables, implementing the tasks themselves became fairly straightforward.
+
+### Sensor Performance
+The LIDAR sensor performed much better than the terrain sensor. This makes sense, as LIDAR can detect unique environmental features (like rocks or barriers), whereas terrain measurements can remain constant over large areas of the map.
+
+If a magnetometer had been available, I expect it would have reduced drift and minimised the offset between predicted and actual pose.
 
 ### Improvements if I had more time
 Implement a system to be able to quantiatively log and measure accuracy of pose estimation and how much each new sensor or code implementation affects accuracy (maybe in the form of interactive graph or something).
 
-### Link to video
-```<Youtube link>```
+### Video Demonstration
+[![Demo](https://i.sstatic.net/BR6HmeLZgOo.png)](https://youtu.be/BR6HmeLZgOo)
+
 The above video demonstrates the fully functioning system, however if you follow the below task outlines, there are images and gif's that demonstrate the features as each task is completed.
 
 ## Task 1: Initialise the particles
