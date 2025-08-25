@@ -2,9 +2,9 @@
 Repo to hold code and notes I have for the Space Robotics subject at UTS.
 
 # Assessment 1: Particle Filter Localisation
-Name: Elena Justo
+**Name:** Elena Justo
 
-Student Number: 24429298
+**Student Number:** 24429298
 
 This will be the directory for assignment 1 located in `ros_ws/src/particle_filter_localisation`
 
